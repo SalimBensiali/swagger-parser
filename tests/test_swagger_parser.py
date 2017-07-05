@@ -129,7 +129,7 @@ def test_get_example_from_prop_spec(swagger_parser):
         }
       }
     }
-    assert swagger_parser.get_example_from_prop_spec(prop_spec) == [{'tag': {'id': 42, 'name': 'string'}}]
+    assert swagger_parser.get_example_from_prop_spec(prop_spec) == {'tag': {'id': 42, 'name': 'string'}}
 
     # Inline complex
     prop_spec = {
@@ -148,7 +148,7 @@ def test_get_example_from_prop_spec(swagger_parser):
       'required': ['error'],
     }
     example = swagger_parser.get_example_from_prop_spec(prop_spec)
-    assert example == [{'error': {'code': 'string', 'detail': 'string', 'title': 'string'}}]
+    assert example == {'error': {'code': 'string', 'detail': 'string', 'title': 'string'}}
 
 
 def test_get_example_from_prop_spec_with_additional_properties(swagger_parser):

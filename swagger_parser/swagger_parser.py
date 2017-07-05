@@ -176,10 +176,7 @@ class SwaggerParser(object):
             return self._example_from_complex_def(prop_spec)
         # Object - read from properties, without references
         if prop_spec['type'] == 'object':
-            example, additional_properties = self._get_example_from_properties(prop_spec)
-            if additional_properties:
-                return example
-            return [example]
+            return self._get_example_from_properties(prop_spec)
         # Array
         if prop_spec['type'] == 'array' or (isinstance(prop_spec['type'], list) and prop_spec['type'][0] == 'array'):
             return self._example_from_array_spec(prop_spec)
@@ -205,16 +202,13 @@ class SwaggerParser(object):
 
         Returns:
             An example for the given spec
-            A boolean, whether we had additionalProperties in the spec, or not
         """
         local_spec = deepcopy(spec)
 
         # Handle additionalProperties if they exist
         # we replace additionalProperties with two concrete
         # properties so that examples can be generated
-        additional_property = False
         if 'additionalProperties' in local_spec:
-            additional_property = True
             if 'properties' not in local_spec:
                 local_spec['properties'] = {}
             local_spec['properties'].update({
@@ -242,7 +236,7 @@ class SwaggerParser(object):
                     partial = partial[0]
                 example[inner_name] = partial
 
-        return example, additional_property
+        return example
 
     @staticmethod
     def _get_example_from_basic_type(type):
@@ -400,7 +394,7 @@ class SwaggerParser(object):
                     return [return_value]
         # Array with inline objects for items
         elif 'properties' in prop_spec['items']:
-            example_object = self._get_example_from_properties(prop_spec['items'])[0]
+            example_object = self._get_example_from_properties(prop_spec['items'])
             return [example_object]
 
     def get_dict_definition(self, dict, get_list=False):
