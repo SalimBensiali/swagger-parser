@@ -531,6 +531,10 @@ class SwaggerParser(object):
                 if any(not self.validate_definition(def_name, item) for item in value):
                     return False
 
+        # validate object
+        elif properties_spec['type'] == 'object':
+            return self.validate_definition('', definition=properties_spec, dict_to_test=value)
+
         else:  # Classic types
             if not self.check_type(value, properties_spec['type']):
                 return False

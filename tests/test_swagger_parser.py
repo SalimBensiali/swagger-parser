@@ -33,7 +33,7 @@ def test_swagger_file_parser(swagger_file_parser):
 def test_build_definitions_example(swagger_parser, pet_definition_example):
     # Test definitions_example
     swagger_parser.build_definitions_example()
-    assert len(swagger_parser.definitions_example) == 5
+    assert len(swagger_parser.definitions_example) == 6
     assert swagger_parser.definitions_example['Pet'] == pet_definition_example
 
     # Test wrong definition
@@ -225,12 +225,14 @@ def test_get_example_from_prop_spec_with_additional_properties(swagger_parser):
     }
 
 
-def test_get_dict_definition(swagger_parser, pet_definition_example):
+def test_get_dict_definition(swagger_parser, pet_definition_example, info_definition_example):
     assert swagger_parser.get_dict_definition(pet_definition_example) == 'Pet'
     assert swagger_parser.get_dict_definition({'error': 'error'}) is None
 
+    assert swagger_parser.get_dict_definition(info_definition_example) == 'Info'
 
-def test_validate_definition(swagger_parser, pet_definition_example):
+
+def test_validate_definition(swagger_parser, pet_definition_example, info_definition_example):
     # Check good
     assert swagger_parser.validate_definition('Pet', pet_definition_example)
 
@@ -247,6 +249,9 @@ def test_validate_definition(swagger_parser, pet_definition_example):
     del pet_definition_example['extra']
     pet_definition_example['name'] = 2
     assert not swagger_parser.validate_definition('Pet', pet_definition_example)
+
+    # check good Info
+    assert swagger_parser.validate_definition('Info', info_definition_example)
 
 
 def test_get_paths_data(swagger_parser, post_put_path_data, get_path_data):

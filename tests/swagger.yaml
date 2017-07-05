@@ -581,3 +581,31 @@ definitions:
         description: Order Status
       complete:
         type: boolean
+  Info:
+    type: object
+    description: Info about the local system, and then anything that this system uses
+    properties:
+      version:
+        type: object
+        description: Version info of the local system (TODO add more info here)
+        required: [branch, git_clean, revision]
+        properties:
+          branch:
+            type: string
+            description: Git branch
+          git_clean:
+            type: boolean
+            description: Whether the git checkout has any local changes
+          revision:
+            type: string
+            description: The git version ID
+          build_time:
+            type: string
+          build_version:
+            type: string
+      service:
+        description: An identifying string for the type of microservice.
+        type: string
+      port:
+        description: The port number that this service thinks it is listening on.
+        type: integer
