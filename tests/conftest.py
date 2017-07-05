@@ -20,6 +20,7 @@ def inline_parser():
                         'tests/object_no_schema.yaml',
                         'tests/allof.yaml',
                         'tests/array_ref_simple.yaml',
+                        'tests/array_ref_deep.yaml',
                         'tests/null_type.yaml',
                         'tests/array_items_list.yaml',
                         'tests/type_list.yaml',

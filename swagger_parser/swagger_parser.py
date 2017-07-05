@@ -370,7 +370,7 @@ class SwaggerParser(object):
         if isinstance(prop_spec['items'], list):
             return [self.get_example_from_prop_spec(item_prop_spec) for item_prop_spec in prop_spec['items']]
         # Standard types in array
-        elif 'type' in prop_spec['items'].keys():
+        elif 'type' in prop_spec['items'].keys() and prop_spec['items']['type'] != 'object':
             if 'format' in prop_spec['items'].keys() and prop_spec['items']['format'] == 'date-time':
                 return self._get_example_from_basic_type('datetime')
             else:
@@ -398,13 +398,10 @@ class SwaggerParser(object):
                     for example_name, example_value in example_dict.items():
                         return_value[example_name] = example_value
                     return [return_value]
+        # Array with inline objects for items
         elif 'properties' in prop_spec['items']:
-            prop_example = {}
-            for prop_name, prop_spec in prop_spec['items']['properties'].items():
-                example = self.get_example_from_prop_spec(prop_spec)
-                if example is not None:
-                    prop_example[prop_name] = example
-            return [prop_example]
+            example_object = self._get_example_from_properties(prop_spec['items'])[0]
+            return [example_object]
 
     def get_dict_definition(self, dict, get_list=False):
         """Get the definition name of the given dict.

@@ -105,6 +105,32 @@ def test_get_example_from_prop_spec(swagger_parser):
     prop_spec['items']['$ref'] = '#/definitions/Tag'
     assert swagger_parser.get_example_from_prop_spec(prop_spec) == [{'id': 42, 'name': 'string'}]
 
+    # definition as $ref in the array item property
+    prop_spec = {
+      'type': 'array',
+      'items': {
+        'type': 'object',
+        'properties': {
+          'tag': {
+            '$ref': '#/definitions/Tag'
+          },
+        },
+        'required': ['tag']
+      }
+    }
+    assert swagger_parser.get_example_from_prop_spec(prop_spec) == [{'tag': {'id': 42, 'name': 'string'}}]
+
+    # object with $ref
+    prop_spec = {
+      'type': 'object',
+      'properties': {
+        'tag': {
+          '$ref': '#/definitions/Tag'
+        }
+      }
+    }
+    assert swagger_parser.get_example_from_prop_spec(prop_spec) == [{'tag': {'id': 42, 'name': 'string'}}]
+
     # Inline complex
     prop_spec = {
       'type': 'object',
