@@ -609,3 +609,14 @@ definitions:
       port:
         description: The port number that this service thinks it is listening on.
         type: integer
+      subsystems:
+        description: Info of other microservices that this service uses
+        type: array
+        items:
+          type: object
+          properties:
+            url:
+              type: string
+              description: path (hostname:port)
+            info:
+              $ref: '#/definitions/Info'

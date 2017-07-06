@@ -225,14 +225,15 @@ def test_get_example_from_prop_spec_with_additional_properties(swagger_parser):
     }
 
 
-def test_get_dict_definition(swagger_parser, pet_definition_example, info_definition_example):
+def test_get_dict_definition(swagger_parser, pet_definition_example, info_definition_example, info_definition_example2):
     assert swagger_parser.get_dict_definition(pet_definition_example) == 'Pet'
     assert swagger_parser.get_dict_definition({'error': 'error'}) is None
 
     assert swagger_parser.get_dict_definition(info_definition_example) == 'Info'
+    assert swagger_parser.get_dict_definition(info_definition_example2) == 'Info'
 
 
-def test_validate_definition(swagger_parser, pet_definition_example, info_definition_example):
+def test_validate_definition(swagger_parser, pet_definition_example, info_definition_example, info_definition_example2):
     # Check good
     assert swagger_parser.validate_definition('Pet', pet_definition_example)
 
@@ -252,6 +253,9 @@ def test_validate_definition(swagger_parser, pet_definition_example, info_defini
 
     # check good Info
     assert swagger_parser.validate_definition('Info', info_definition_example)
+
+    # check def with recursion
+    assert swagger_parser.validate_definition('Info', info_definition_example2)
 
 
 def test_get_paths_data(swagger_parser, post_put_path_data, get_path_data):

@@ -65,6 +65,32 @@ def info_definition_example():
     }
 
 @pytest.fixture
+def info_definition_example2():
+    return {
+        'version': {
+            'git_clean': False,
+            'branch': 'string',
+            'revision': 'string'
+            },
+        'service': 'string',
+        'subsystems': [
+            {
+                'info': {
+                    'version': {
+                        'git_clean': False,
+                        'branch': 'string',
+                        'revision': 'string'
+                        },
+                    'service': 'string',
+                    'port': 42
+                },
+                'url': 'string'
+            }
+        ],
+        'port': 42
+    }
+
+@pytest.fixture
 def inline_example():
     return {
         '3bd818fb7d55daf2fb8bf3354c061f9ba7f8cece39b30bdcb7e05551053ec2e8': ('/test', 'post', None)

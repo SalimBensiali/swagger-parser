@@ -523,7 +523,7 @@ class SwaggerParser(object):
 
             # Check type
             if ('type' in properties_spec['items'].keys() and
-                    any(not self.check_type(item, properties_spec['items']['type']) for item in value)):
+                    any(not self._validate_type(properties_spec['items'], item) for item in value)):
                 return False
             # Check ref
             elif ('$ref' in properties_spec['items'].keys()):
